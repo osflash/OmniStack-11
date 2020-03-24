@@ -1,4 +1,4 @@
-const connection = require('../database')
+const connection = require('../database');
 
 module.exports = {
   async create(req, res) {
@@ -10,9 +10,9 @@ module.exports = {
       .first();
 
     if (!ong) {
-      return res.status(400).json({ error: 'No ONG found with this ID'});
+      return res.status(400).json({ error: 'No ONG found with this ID' });
     }
 
     return res.json(ong);
-  }
+  },
 };

@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const connection = require('../database')
+const connection = require('../database');
 
 module.exports = {
   async index(req, res) {
@@ -9,7 +9,9 @@ module.exports = {
   },
 
   async create(req, res) {
-    const { name, email, whatsapp, city, uf } = req.body;
+    const {
+      name, email, whatsapp, city, uf,
+    } = req.body;
 
     const id = crypto.randomBytes(4).toString('HEX');
 
@@ -23,5 +25,5 @@ module.exports = {
     });
 
     return res.json({ id });
-  }
-}
+  },
+};
