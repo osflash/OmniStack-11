@@ -80,6 +80,9 @@ export default function Detail() {
           <IncidentProperty>CASO:</IncidentProperty>
           <IncidentValue>{incident.title}</IncidentValue>
 
+          <IncidentProperty>DESCRIÇÃO:</IncidentProperty>
+          <IncidentValue>{incident.description}</IncidentValue>
+
           <IncidentProperty>VALOR:</IncidentProperty>
           <IncidentValue>
             {Intl.NumberFormat('pt-BR', {

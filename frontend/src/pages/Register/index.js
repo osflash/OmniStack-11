@@ -24,10 +24,10 @@ export default function Register() {
     try {
       const schema = Yup.object().shape({
         name: Yup.string().required('O nome é obrigatório'),
-        email: Yup.string().required('O e-mail é obrigatório'),
+        email: Yup.string().required('O e-mail é obrigatório').email('Digite um e-mail valido'),
         whatsapp: Yup.string().required('O whatsapp é obrigatório'),
         city: Yup.string().required('O nome é obrigatório'),
-        uf: Yup.string().required('O nome é obrigatório'),
+        uf: Yup.string().required('O nome é obrigatório').max(2, 'Estado inválido'),
       });
 
       await schema.validate(data, {
