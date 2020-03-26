@@ -83,4 +83,8 @@ export default createGlobalStyle`
   .back-link:hover {
     opacity: 0.8;
   }
+
+  .label-error {
+    color: #e02041;
+  }
 `;

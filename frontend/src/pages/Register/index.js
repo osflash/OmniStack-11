@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
+import * as Yup from 'yup';
+
+import { Form } from '@unform/web';
 
 import api from '../../services/api';
+
+import Input from '../../components/Input';
 
 import { Container, Content } from './styles';
 
@@ -11,33 +16,42 @@ import logoImg from '../../assets/logo.svg';
 export default function Register() {
   const text = 'Faça seu cadastro, entre na plataforma e ajude pessoas a encontrarem os casos da sua ONG.';
 
+  const formRef = useRef(null);
+
   const history = useHistory();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [whatsapp, setWhatsapp] = useState('');
-  const [city, setCity] = useState('');
-  const [uf, setUf] = useState('');
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-
-    const data = {
-      name,
-      email,
-      whatsapp,
-      city,
-      uf,
-    };
-
+  const handleSubmit = async (data) => {
     try {
+      const schema = Yup.object().shape({
+        name: Yup.string().required('O nome é obrigatório'),
+        email: Yup.string().required('O e-mail é obrigatório'),
+        whatsapp: Yup.string().required('O whatsapp é obrigatório'),
+        city: Yup.string().required('O nome é obrigatório'),
+        uf: Yup.string().required('O nome é obrigatório'),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
       const response = await api.post('ongs', data);
+
+      localStorage.setItem('ongId', response.data.id);
 
       console.log(`Seu ID de acesso: ${response.data.id}`);
 
       history.push('/');
-    } catch (error) {
-      console.error('Erro no cadastro, tente novamente.');
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errorMessages = {};
+        err.inner.forEach((error) => {
+          errorMessages[error.path] = error.message;
+        });
+
+        formRef.current.setErrors(errorMessages);
+      } else {
+        formRef.current.setErrors({ error: 'Erro no cadastro, tente novamente.' });
+      }
     }
   };
 
@@ -56,40 +70,34 @@ export default function Register() {
           </Link>
         </section>
 
-        <form onSubmit={handleRegister}>
-          <input
+        <Form ref={formRef} onSubmit={handleSubmit}>
+          <Input
+            name="name"
             placeholder="Nome da ONG"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
           />
-          <input
-            type="email"
+          <Input
+            name="email"
             placeholder="E-mail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
           />
-          <input
+          <Input
             placeholder="WhatsApp"
-            value={whatsapp}
-            onChange={(e) => setWhatsapp(e.target.value)}
+            name="whatsapp"
           />
 
           <div className="input-group">
-            <input
+            <Input
               placeholder="Cidade"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
+              name="city"
             />
-            <input
+            <Input
               placeholder="UF"
-              value={uf}
-              onChange={(e) => setUf(e.target.value)}
+              name="uf"
               style={{ width: 80 }}
             />
           </div>
 
           <button className="button" type="submit">Cadastrar</button>
-        </form>
+        </Form>
       </Content>
     </Container>
   );
