@@ -56,6 +56,7 @@ export default function Incidents() {
 
   useEffect(() => {
     loadIncidents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

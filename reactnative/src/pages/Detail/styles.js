@@ -21,7 +21,7 @@ export const Incident = styled.View`
   border-radius: 8px;
   background-color: #fff;
   margin-bottom: 16px;
-  margin-top: 48px;
+  /* margin-top: 48px; */
 `;
 
 export const IncidentProperty = styled.Text`

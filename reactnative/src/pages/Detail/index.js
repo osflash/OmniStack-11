@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Linking } from 'react-native';
+import { Image, Linking, ScrollView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import MailComposer from 'react-native-mail';
 
@@ -67,39 +67,44 @@ export default function Detail() {
         </Touch>
       </Header>
 
-      <Incident>
-        <IncidentProperty style={{ marginTop: 0 }}>ONG:</IncidentProperty>
-        <IncidentValue>
-          {incident.name} de {incident.city}/{String(incident.uf).toUpperCase()}
-        </IncidentValue>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ marginTop: 48 }}>
+        <Incident>
+          <IncidentProperty style={{ marginTop: 0 }}>ONG:</IncidentProperty>
+          <IncidentValue>
+            {incident.name} de {incident.city}/
+            {String(incident.uf).toUpperCase()}
+          </IncidentValue>
 
-        <IncidentProperty>CASO:</IncidentProperty>
-        <IncidentValue>{incident.title}</IncidentValue>
+          <IncidentProperty>CASO:</IncidentProperty>
+          <IncidentValue>{incident.title}</IncidentValue>
 
-        <IncidentProperty>VALOR:</IncidentProperty>
-        <IncidentValue>
-          {Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-          }).format(incident.value)}
-        </IncidentValue>
-      </Incident>
+          <IncidentProperty>VALOR:</IncidentProperty>
+          <IncidentValue>
+            {Intl.NumberFormat('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+            }).format(incident.value)}
+          </IncidentValue>
+        </Incident>
 
-      <ContactBox>
-        <HeroTitle>Salve o dia!</HeroTitle>
-        <HeroTitle>Seja o herói desse caso.</HeroTitle>
+        <ContactBox>
+          <HeroTitle>Salve o dia!</HeroTitle>
+          <HeroTitle>Seja o herói desse caso.</HeroTitle>
 
-        <HeroDescription>Entre em contato:</HeroDescription>
-        <Actions>
-          <Action onPress={sendWhatsApp}>
-            <ActionText>WhatsApp</ActionText>
-          </Action>
+          <HeroDescription>Entre em contato:</HeroDescription>
+          <Actions>
+            <Action onPress={sendWhatsApp}>
+              <ActionText>WhatsApp</ActionText>
+            </Action>
 
-          <Action onPress={sendMail}>
-            <ActionText>E-mail</ActionText>
-          </Action>
-        </Actions>
-      </ContactBox>
+            <Action onPress={sendMail}>
+              <ActionText>E-mail</ActionText>
+            </Action>
+          </Actions>
+        </ContactBox>
+      </ScrollView>
     </Container>
   );
 }
